@@ -1,0 +1,140 @@
+NAME
+    Algorithm::SkipList - Perl implementation of skip lists
+
+REQUIREMENTS
+    The following non-core modules are used:
+
+      Tree::Node
+
+INSTALLATION
+    Installation can be done using the traditional Makefile.PL or the newer
+    Build.PL method .
+
+    Using Makefile.PL:
+
+      perl Makefile.PL
+      make test
+      make install
+
+    (On Windows platforms you should use nmake instead.)
+
+    Using Build.PL (if you have Moddule::Build installed):
+
+      perl Build.PL
+      perl Build test
+      perl Build install    
+
+SYNOPSIS
+      my $list = new Algorithm::SkipList();
+
+      $list->insert( 'key1', 'value' );
+      $list->insert( 'key2', 'another value' );
+
+      $value = $list->find('key2');
+
+      $list->delete('key1');
+
+DESCRIPTION
+    This is an implementation of skip lists in Perl.
+
+    Skip lists are an alternative to balanced trees. They are ordered linked
+    lists with random links at various *levels* that allow searches to skip
+    over sections of the list, like so:
+
+      4 +---------------------------> +----------------------> +
+        |                             |                        |
+      3 +------------> +------------> +-------> +-------> +--> +
+        |              |              |         |         |    |
+      2 +-------> +--> +-------> +--> +--> +--> +-------> +--> +
+        |         |    |         |    |    |    |         |    |
+      1 +--> +--> +--> +--> +--> +--> +--> +--> +--> +--> +--> +
+             A    B    C    D    E    F    G    H    I    J   NIL
+
+    A search would start at the top level: if the link to the right exceeds
+    the target key, then it descends a level.
+
+    Skip lists generally perform as well as balanced trees for searching but
+    do not have the overhead with respect to reblanacing the structure. And
+    on average, they use less memory than trees.
+
+    They also use less memory than hashes, and so are appropriate for large
+    collections.
+
+KNOWN ISSUES
+    Developer Release
+        This is a developer release, with many changes to improve
+        performance. Some of these changes may cause incompatabilities. See
+        the Changes file.
+
+        Algorithm::SkipList::PurePerl is not included with this release, and
+        code which relies on it may fail.
+
+        The documentation has largely been copied from the 1.02 release, and
+        may not accurately reflect changes in this release.
+
+    Undefined Values
+        Certain methods such as the find and delete entries elsewhere in
+        this document will return the the value associated with a key, or
+        `undef' if the key does not exist. However, if the value is `undef',
+        then these functions will appear to claim that the key cannot be
+        found.
+
+        In such circumstances, use the exists method to test for the
+        existence of a key.
+
+    Duplicate Keys
+        Duplicate keys are an experimental feature in this module, since
+        most methods have been designed for unique keys only.
+
+        Access to duplicate keys is akin to a stack. When a duplicate key is
+        added, it is always inserted *before* matching keys. In searches, to
+        find duplicate keys one must use find_with_finger or the
+        find_duplicates method.
+
+        The copy method will reverse the order of duplicates.
+
+        The behavior of the the merge and append entries elsewhere in this
+        document methods is not defined for duplicates.
+
+    Non-Determinism
+        Skip lists are non-deterministic. Because of this, bugs in programs
+        that use this module may be subtle and difficult to reproduce
+        without many repeated attempts. This is especially true if there are
+        bugs in a custom node.
+
+    Additional issues may be listed on the CPAN Request Tracker at
+    http://rt.cpan.org/NoAuth/Bugs.html?Dist=Algorithm-SkipList or
+    http://rt.cpan.org/NoAuth/Bugs.html?Dist=List-SkipList.
+
+AUTHOR
+    Robert Rothenberg <rrwo at cpan.org>
+
+  Acknowledgements
+
+    Carl Shapiro for introduction to skip lists.
+
+  Suggestions and Bug Reporting
+
+    Feedback is always welcome. Please use the CPAN Request Tracker at
+    http://rt.cpan.org to submit bug reports.
+
+LICENSE
+    Copyright (c) 2003-2005, 2008-2010 Robert Rothenberg. All rights
+    reserved. This program is free software; you can redistribute it and/or
+    modify it under the same terms as Perl itself.
+
+SEE ALSO
+    See the article by William Pugh, "A Skip List Cookbook" (1989), or
+    similar ones by the author at http://www.cs.umd.edu/~pugh/ which discuss
+    skip lists.
+
+    Another article worth reading is by Bruce Schneier, "Skip Lists: They're
+    easy to implement and they work", Doctor Dobbs Journal, January 1994.
+
+    Tie::Hash::Sorted maintains a hash where keys are sorted. In many cases
+    this is faster, uses less memory (because of the way Perl5 manages
+    memory), and may be more appropriate for some uses.
+
+    If you need a keyed list that preserves the order of insertion rather
+    than sorting keys, see List::Indexed or Tie::IxHash.
+
