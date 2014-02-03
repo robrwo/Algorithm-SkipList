@@ -1,27 +1,41 @@
 Revision history for Perl extension Algorithm::SkipList.
 
-2.00_02 29 March 2010
+      - Reformatted Changes file.
+
+2.00_02 2010-03-29
+
     [ENHANCEMENTS]
+
 	- Rewrote Algorithm::SkipList::Node. Now based on the Tree::Node
 	  package, which is written in C for significant improvement in
 	  memory usage, and a slight improvement in speed
+
 	- Cleaner code in various methods
+
 	- Option to set minimum level
 
     [INCOMPATIBLE CHANGES]
+
 	- changed interface for Node package, but since it is meant for
 	  internal use, this should not be a problem for most users
+
 	- accessing the key and value accessors of the header will
 	  cause an error
+
 	- _search() and _search_with_finger() return their values in a
 	  different order; again these are for internal use...
+
 	- duplicates option renamed to allow_duplicates
+
 	- other name and interface changes to internals
+
 	- the levels method does not return a value equal to the
 	  number of levels in the list header node (list method)
+
 	- the order of arguments to the copy method has changed
 	  to copy(low, high, finger) so as to be consistent with other
 	  methods
+
         - The following methods are not yet implemented in this release:
             merge
             find_duplicates
@@ -31,7 +45,11 @@ Revision history for Perl extension Algorithm::SkipList.
             value_by_index
 
     [OTHER CHANGES]
+
 	- Updated and reorganized documentation.
+
 	- Rewrote tests from scratch.
+
 	- Level threshold not readjusted during deletes.
+
         - Benchmarks.txt file not included with this release.

@@ -27,7 +27,7 @@ Using Build.PL (if you have L<Moddule::Build> installed):
 
   perl Build.PL
   perl Build test
-  perl Build install    
+  perl Build install
 
 =end readme
 
@@ -83,7 +83,7 @@ use 5.006;
 use strict;
 use warnings::register __PACKAGE__;
 
-our $VERSION = '2.00_02';
+our $VERSION = '2.00_03';
 $VERSION = eval $VERSION;
 
 use self;
@@ -571,7 +571,7 @@ sub _build_distribution {
   my $p = $self->p;
   my $k = $self->k;
 
-  $self->{p_levels} = [ (0) x MAX_LEVEL ]; 
+  $self->{p_levels} = [ (0) x MAX_LEVEL ];
   for my $i (0..MAX_LEVEL) {
     $self->{p_levels}->[$i] = $p**($i+$k);
   }
@@ -650,10 +650,10 @@ sub _adjust_level_threshold {
 #   elsif ($self->{size} < $self->{last_size_threshold}) {
 #     $self->{size_threshold}  = $self->{last_size_threshold};
 #     $self->{last_size_threshold} = $self->{last_size_threshold} / 2;
-# 
+#
 #     # We cannot practically decrease the level without readjusting the
 #     # levels of all the nodes globally, which isn't worthwhile.
-# 
+#
 #     # $self->{level}--,
 #     #   if ($self->{level} > MIN_LEVEL);
 #   }
@@ -780,7 +780,7 @@ sub next_key {
 
 sub _error {
   croak "Method unimplemented";
-} 
+}
 
 BEGIN {
   *TIEHASH   = \&new;
@@ -919,7 +919,7 @@ keys:
 
   @values = $list->values( $low, $high );
 
-=cut 
+=cut
 
 sub values {
   my ($low, $high, $finger) = @args;
@@ -1006,7 +1006,7 @@ sub truncate {
 }
 
 sub append {
-  my ($head, $tail) = @_;  
+  my ($head, $tail) = @_;
 
   my $left  = $head->_last_node;
   my $right = $tail->_first_node;
@@ -1316,7 +1316,7 @@ sub merge {
 
     my $cmp = ($node1) ? (
       ($node2) ? $node1->key_cmp( $node2->key ) : 1 ) : -1;
-    
+
     if ($cmp < 0) {                     # key1 < key2
       if ($node1) {
 	$finger1 = $list1->insert( $node1->key, $node1->value, );
@@ -1684,7 +1684,7 @@ Note that this is a change form versions prior to 0.71.
 
   $list->reset;
 
-Resets the L</last_key> to C<undef>. 
+Resets the L</last_key> to C<undef>.
 
 =item index_by_key
 
@@ -1788,7 +1788,7 @@ If you do not want this entanglement, use the L</merge> or L</copy>
 methods instead:
 
   $list1->merge( $list2 );
-  
+
 or
 
   $list1->append( $list2->copy );
